@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NOVA — 让增长更简单</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background:#fff; color:#111; overflow-x:hidden;
+  }
+
+  /* ============ 正常营销区 ============ */
+  .hero {
+    min-height:100vh; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; text-align:center;
+    padding:40px 20px; background:linear-gradient(180deg,#f7f9fc,#fff);
+  }
+  .logo { font-size:22px; font-weight:800; letter-spacing:2px; color:#2563eb; margin-bottom:28px; }
+  .hero h1 { font-size:clamp(32px,6vw,64px); font-weight:800; line-height:1.1; max-width:900px; }
+  .hero h1 span { color:#2563eb; }
+  .hero p { margin-top:22px; font-size:clamp(15px,2vw,19px); color:#555; max-width:560px; line-height:1.7; }
+  .cta {
+    margin-top:38px; padding:16px 42px; border:none; border-radius:999px;
+    background:#2563eb; color:#fff; font-size:17px; font-weight:700; cursor:pointer;
+    box-shadow:0 10px 30px rgba(37,99,235,.35); transition:transform .2s;
+  }
+  .cta:hover { transform:translateY(-2px); }
+
+  .features { padding:100px 20px; max-width:1100px; margin:0 auto; }
+  .features h2 { text-align:center; font-size:clamp(26px,4vw,40px); margin-bottom:16px; }
+  .features .sub { text-align:center; color:#666; margin-bottom:60px; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:28px; }
+  .card {
+    padding:36px 28px; border-radius:18px; background:#f8fafc;
+    border:1px solid #eef2f7; transition:transform .25s, box-shadow .25s;
+  }
+  .card:hover { transform:translateY(-6px); box-shadow:0 20px 40px rgba(0,0,0,.08); }
+  .card .ico { font-size:34px; margin-bottom:16px; }
+  .card h3 { font-size:20px; margin-bottom:10px; }
+  .card p { color:#666; line-height:1.7; font-size:15px; }
+
+  .stats { background:#0f172a; color:#fff; padding:90px 20px; }
+  .stats-inner { max-width:1000px; margin:0 auto; display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:40px; text-align:center; }
+  .stat b { display:block; font-size:clamp(34px,5vw,56px); color:#60a5fa; }
+  .stat span { color:#94a3b8; font-size:14px; letter-spacing:1px; }
+
+  .quote { padding:100px 20px; text-align:center; max-width:800px; margin:0 auto; }
+  .quote p { font-size:clamp(20px,3vw,28px); font-weight:600; line-height:1.6; }
+  .quote .who { margin-top:22px; color:#888; font-size:14px; }
+
+  footer { padding:50px 20px; text-align:center; color:#aaa; font-size:13px; border-top:1px solid #eee; }
+
+  /* ============ 渐变异常区 ============ */
+  .transition { padding:140px 20px; text-align:center; }
+  .transition h2 { font-size:clamp(24px,4vw,38px); margin-bottom:20px; transition:color .6s, letter-spacing .6s; }
+  .transition p { color:#777; max-width:520px; margin:0 auto; line-height:1.8; transition:all .6s; }
+
+  /* 轻微不对的区块 */
+  .odd {
+    max-width:820px; margin:0 auto; padding:60px 24px;
+    display:flex; gap:28px; align-items:center;
+  }
+  .odd .box {
+    flex:0 0 140px; height:140px; border-radius:16px;
+    background:#e2e8f0; display:flex; align-items:center; justify-content:center;
+    font-size:40px; transition:transform .4s;
+  }
+  .odd h3 { font-size:22px; margin-bottom:10px; }
+  .odd p { color:#666; line-height:1.7; font-size:15px; }
+
+  /* ============ 恐怖区 ============ */
+  .dark-zone {
+    background:#050505; color:#c9c9c9; position:relative;
+    padding:120px 20px 200px; overflow:hidden;
+  }
+  .dark-zone h2 {
+    text-align:center; font-size:clamp(26px,5vw,46px); color:#e5e5e5;
+    margin-bottom:30px; letter-spacing:2px;
+  }
+  .dark-zone .whisper {
+    max-width:620px; margin:0 auto 60px; text-align:center;
+    color:#8a8a8a; line-height:2; font-size:15px;
+  }
+
+  .creepy-grid {
+    max-width:900px; margin:0 auto; display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:30px;
+  }
+  .creepy-card {
+    padding:34px 24px; border:1px solid #1c1c1c; border-radius:4px;
+    background:#0a0a0a; position:relative;
+  }
+  .creepy-card h3 { font-size:17px; color:#b0b0b0; margin-bottom:12px; }
+  .creepy-card p { font-size:14px; color:#6d6d6d; line-height:1.8; }
+
+  /* 眼睛 */
+  .eye-wrap { display:flex; justify-content:center; margin:80px 0 40px; }
+  .eye {
+    width:130px; height:130px; border-radius:50%;
+    background:radial-gradient(circle at 50% 50%, #fff 0 22%, #111 23% 60%, #000 61%);
+    position:relative; animation:blink 6s infinite;
+    box-shadow:0 0 60px rgba(255,255,255,.15);
+  }
+  .eye::after {
+    content:""; position:absolute; width:26px; height:26px;
+    background:#000; border-radius:50%; top:50%; left:50%;
+    transform:translate(-50%,-50%);
+    animation:look 5s infinite alternate ease-in-out;
+  }
+  @keyframes blink {
+    0%,92%,100% { transform:scaleY(1); }
+    95% { transform:scaleY(0.05); }
+  }
+  @keyframes look {
+    0% { transform:translate(-50%,-50%) translateX(-16px); }
+    50% { transform:translate(-50%,-50%) translateX(16px); }
+    100% { transform:translate(-50%,-50%) translateX(-10px); }
+  }
+
+  /* 最终恐怖段 */
+  .final {
+    background:#000; color:#ddd; padding:160px 20px 240px;
+    text-align:center; position:relative;
+  }
+  .final h2 {
+    font-size:clamp(30px,6vw,60px); color:#fff; letter-spacing:6px;
+    text-shadow:0 0 30px rgba(255,0,0,.45);
+  }
+  .final .glitch { position:relative; display:inline-block; }
+  .final .glitch::before, .final .glitch::after {
+    content:attr(data-text); position:absolute; top:0; left:0;
+    width:100%; overflow:hidden;
+  }
+  .final .glitch::before { color:#ff2d2d; animation:gl1 2.4s infinite; clip-path:inset(0 0 55% 0); }
+  .final .glitch::after { color:#2d6bff; animation:gl2 2.1s infinite; clip-path:inset(55% 0 0 0); }
+  @keyframes gl1 { 0%,100%{transform:translate(0)} 20%{transform:translate(-3px,-2px)} 40%{transform:translate(2px,1px)} 60%{transform:translate(-2px,2px)} 80%{transform:translate(3px,-1px)} }
+  @keyframes gl2 { 0%,100%{transform:translate(0)} 25%{transform:translate(3px,2px)} 50%{transform:translate(-2px,-1px)} 75%{transform:translate(2px,-2px)} }
+
+  .final p { margin-top:40px; color:#888; font-size:clamp(15px,2vw,18px); line-height:2; }
+  .final .whisper-final {
+    margin-top:90px; color:#333; font-size:13px; letter-spacing:3px;
+    animation:flicker 4s infinite;
+  }
+  @keyframes flicker {
+    0%,100%{opacity:.25} 45%{opacity:.8} 47%{opacity:.1} 50%{opacity:.65} 52%{opacity:.2}
+  }
+
+  /* 血迹装饰 */
+  .blood {
+    position:absolute; top:0; left:50%; transform:translateX(-50%);
+    width:4px; height:0; background:linear-gradient(180deg,#7a0000,#3a0000);
+    animation:drip 7s infinite;
+  }
+  @keyframes drip {
+    0%{height:0; opacity:.9} 70%{height:180px; opacity:.9}
+    100%{height:180px; opacity:.15}
+  }
+
+  /* 抖动效果 */
+  .shake { animation:shake 0.5s infinite; }
+  @keyframes shake {
+    0%,100%{transform:translate(0,0)} 25%{transform:translate(-2px,1px)}
+    50%{transform:translate(2px,-1px)} 75%{transform:translate(-1px,-2px)}
+  }
+
+  /* 进入黑暗区时整体变暗 */
+  .vignette {
+    position:fixed; inset:0; pointer-events:none; z-index:9999;
+    box-shadow:inset 0 0 0 rgba(0,0,0,0); transition:box-shadow 1.2s;
+  }
+  .vignette.on { box-shadow:inset 0 0 260px 90px rgba(0,0,0,.95); }
+</style>
+</head>
+<body>
+
+<div class="vignette" id="vignette"></div>
+
+<!-- ===== 1. 正常营销 ===== -->
+<section class="hero">
+  <div class="logo">NOVA</div>
+  <h1>让增长<span>更简单</span></h1>
+  <p>一站式数据驱动增长平台，帮助团队洞察用户、优化转化、实现指数级增长。</p>
+  <button class="cta">免费开始</button>
+</section>
+
+<section class="features">
+  <h2>为什么选择 NOVA</h2>
+  <p class="sub">超过 12,000 个团队正在使用 NOVA 驱动增长</p>
+  <div class="grid">
+    <div class="card"><div class="ico">📊</div><h3>实时分析</h3><p>秒级数据更新，掌握每一次用户行为的细节。</p></div>
+    <div class="card"><div class="ico">⚡</div><h3>极速部署</h3><p>三分钟接入，无需工程资源，开箱即用。</p></div>
+    <div class="card"><div class="ico">🔒</div><h3>安全可靠</h3><p>企业级加密，数据主权始终属于你。</p></div>
+  </div>
+</section>
+
+<section class="stats">
+  <div class="stats-inner">
+    <div class="stat"><b>12,847</b><span>活跃团队</span></div>
+    <div class="stat"><b>99.99%</b><span>服务可用性</span></div>
+    <div class="stat"><b>4.9/5</b><span>用户评分</span></div>
+  </div>
+</section>
+
+<section class="quote">
+  <p>“NOVA 彻底改变了我们理解用户的方式，增长不再是猜测。”</p>
+  <div class="who">— 林薇，某科技公司增长负责人</div>
+</section>
+
+<!-- ===== 2. 开始不对 ===== -->
+<section class="transition">
+  <h2 id="t1">但有些数据，不该被看到。</h2>
+  <p id="t2">你继续向下滚动。页面没有变，但你知道，有什么东西变了。</p>
+</section>
+
+<section class="odd">
+  <div class="box" id="box1">📈</div>
+  <div>
+    <h3>关于真实用户</h3>
+    <p>我们统计了所有访问过这个页面的人。他们中的大多数，再也没能离开。</p>
+  </div>
+</section>
+
+<section class="odd">
+  <div class="box" id="box2">👁️</div>
+  <div>
+    <h3>关于停留时长</h3>
+    <p>平均停留时间：∞ 秒。系统无法识别“离开”这一行为。系统从未识别过。</p>
+  </div>
+</section>
+
+<!-- ===== 3. 明显恐怖 ===== -->
+<section class="dark-zone">
+  <div class="blood"></div>
+  <h2>你还在往下看。</h2>
+  <p class="whisper">我们记录了你每一次滚动。你停在某一段的时间，比其他人长。你在犹豫。你在害怕。这很好。恐惧让信号更清晰。</p>
+
+  <div class="creepy-grid">
+    <div class="creepy-card"><h3>01 / 不要回头</h3><p>你身后的房间里没有别人。这是我们在三分钟前确认的。但请再确认一次。</p></div>
+    <div class="creepy-card"><h3>02 / 数量不对</h3><p>页面上有 3 个卡片。你数到了 4 个。请重新数。请不要再数。</p></div>
+    <div class="creepy-card"><h3>03 / 我们认识你</h3><p>你的屏幕亮度、滚动速度、心跳节奏。我们没有传感器。我们不需要。</p></div>
+  </div>
+
+  <div class="eye-wrap"><div class="eye"></div></div>
+</section>
+
+<!-- ===== 4. 最终恐怖 ===== -->
+<section class="final">
+  <h2 class="glitch" data-text="现在，向下看。">现在，向下看。</h2>
+  <p>你看到的不是网页。<br>你看到的是我们为你打开的一扇门。<br>门后面，什么都有。</p>
+  <p style="margin-top:60px;color:#9b1c1c;font-size:clamp(20px,4vw,34px);font-weight:700;letter-spacing:4px;" id="finalLine">它已经在你身后了。</p>
+  <div class="whisper-final" id="whisperFinal">不要滚动。不要滚动。不要滚动。</div>
+</section>
+
+<footer>© 2025 NOVA. 保留所有权利。</footer>
+
+<script>
+  // 滚动驱动：越往下越暗、越抖
+  const vignette = document.getElementById('vignette');
+  const t1 = document.getElementById('t1');
+  const t2 = document.getElementById('t2');
+  const box1 = document.getElementById('box1');
+  const box2 = document.getElementById('box2');
+  const finalLine = document.getElementById('finalLine');
+  const whisperFinal = document.getElementById('whisperFinal');
+  let shook = false;
+
+  window.addEventListener('scroll', () => {
+    const sc = window.scrollY;
+    const max = document.body.scrollHeight - window.innerHeight;
+    const p = Math.min(sc / max, 1);
+
+    // 暗角逐渐加重
+    if (p > 0.35) vignette.classList.add('on');
+    else vignette.classList.remove('on');
+
+    // 文字颜色逐渐异常
+    if (p > 0.25) {
+      t1.style.color = '#8b0000';
+      t1.style.letterSpacing = '2px';
+      t2.style.color = '#555';
+      t2.style.transform = 'skewX(-1.5deg)';
+    }
+    if (p > 0.4) {
+      box1.style.transform = 'rotate(' + (p * 8) + 'deg) scale(' + (1 - p * 0.15) + ')';
+      box2.style.transform = 'rotate(' + (-p * 10) + 'deg) scale(' + (1 + p * 0.1) + ')';
+    }
+
+    // 最后一段：抖动 + 眼睛跟随
+    if (p > 0.78 && !shook) {
+      shook = true;
+      finalLine.classList.add('shake');
+    }
+
+    // 最终文字随滚动改变
+    if (p > 0.9) {
+      finalLine.textContent = '它已经在你身后了。';
+      finalLine.style.color = '#ff2d2d';
+      whisperFinal.textContent = '别回头。';
+      whisperFinal.style.color = '#7a0000';
+    }
+  });
+
+  // 鼠标移动时眼睛瞳孔跟随
+  const eye = document.querySelector('.eye');
+  document.addEventListener('mousemove', (e) => {
+    if (!eye) return;
+    const r = eye.getBoundingClientRect();
+    const cx = r.left + r.width / 2;
+    const cy = r.top + r.height / 2;
+    const dx = Math.max(-20, Math.min(20, (e.clientX - cx) / 18));
+    const dy = Math.max(-20, Math.min(20, (e.clientY - cy) / 18));
+    eye.style.backgroundPosition = 'calc(50% + ' + dx + 'px) calc(50% + ' + dy + 'px)';
+  });
+
+  // 每隔几秒，让最后一段的提示闪烁一下
+  setInterval(() => {
+    if (whisperFinal) {
+      whisperFinal.style.opacity = Math.random() > 0.5 ? '1' : '0.15';
+    }
+  }, 1200);
+</script>
+</body>
+</html>
